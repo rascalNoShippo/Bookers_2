@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Bookers2</title>
+    <title><%= content_for?(:pagetitle) ? "#{yield(:pagetitle)} : Bookers 2" : "Bookers 2" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,6 +11,37 @@
   </head>
 
   <body>
+    <header>
+      <div>
+        Bookers
+      </div>
+      <div>
+        <li>
+          <%= link_to "Home", "" %>
+        </li>
+        <% if user_signed_in? %>
+          <li>
+            <%= link_to "Users", "" %>
+          </li>
+          <li>
+            <%= link_to "Books", "" %>
+          </li>
+          <li>
+            <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+          </li>
+          <% else %>
+          <li>
+            <%= link_to "About", "" %>
+          </li>
+          <li>
+            <%= link_to "Sign up", new_user_registration_path %>
+          </li>
+          <li>
+            <%= link_to "Log in", new_user_session_path %>
+          </li>
+        <% end %>
+      </div>
+    </header>
     <%= yield %>
   </body>
 </html>
