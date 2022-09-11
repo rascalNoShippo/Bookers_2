@@ -1,0 +1,16 @@
+<% content_for(:pagetitle, "Edit User Properties") %>
+<h2>User info</h2>
+  <%= form_with model: User.find(current_user.id), url: user_path, method: :patch do |f| %>
+    <div>
+      <%= f.label :name, "Name" %>
+      <%= f.text_field :name %>
+    </div>
+    <div>
+      <%= f.file_field :prof_image, placeholder: "プロフィール画像", accept: "image/*" %>
+    </div>
+    <div>
+      <%= f.label :introduction, "Introduction" %>
+      <%= f.text_area :introduction %>
+    </div>
+    <%= f.submit "Update User" %>
+  <% end %>

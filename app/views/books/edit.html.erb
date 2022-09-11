@@ -1,0 +1,28 @@
+<% content_for(:pagetitle, "Editing book #{@editing_book.title}") %>
+
+<h2>Editing Book</h2>
+<% if @editing_book.errors.any? %>
+  <div>
+    <p><%= @editing_book.errors.count %>件のerrorが発生しました：</p>
+    <ul>
+    <% @editing_book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+<%= form_with model: @editing_book, url: book_path, method: :patch do |f| %>
+  <div>
+    <div>
+      <%= f.label :title, "Title" %>
+      <%= f.text_field :title %>
+    </div>
+    <div>
+      <%= f.label :body, "Opinion" %>
+      <%= f.text_field :body %>
+    </div>
+    <div>
+      <%= f.submit "Update book" %> 
+    </div>
+  </div>
+<% end %>

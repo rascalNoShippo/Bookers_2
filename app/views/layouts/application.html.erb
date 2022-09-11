@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for?(:pagetitle) ? "#{yield(:pagetitle)} : Bookers 2" : "Bookers 2" %></title>
+    <title><%= content_for?(:pagetitle) ? "#{yield(:pagetitle)} - Bookers 2" : "Bookers 2" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,27 +11,30 @@
   </head>
 
   <body>
-    <header>
+    <header> <%# ヘッダー %>
       <div>
-        Bookers
+        <%= link_to"Bookers", root_path %>
       </div>
       <div>
-        <li>
-          <%= link_to "Home", "" %>
-        </li>
         <% if user_signed_in? %>
           <li>
-            <%= link_to "Users", "" %>
+            <%= link_to "Home", user_path(current_user.id) %>
           </li>
           <li>
-            <%= link_to "Books", "" %>
+            <%= link_to "Users", users_path %>
+          </li>
+          <li>
+            <%= link_to "Books", books_path %>
           </li>
           <li>
             <%= link_to "Log out", destroy_user_session_path, method: :delete %>
           </li>
-          <% else %>
+        <% else %>
           <li>
-            <%= link_to "About", "" %>
+            <%= link_to "Home", root_path %>
+          </li>
+          <li>
+            <%= link_to "About", "/about" %>
           </li>
           <li>
             <%= link_to "Sign up", new_user_registration_path %>
@@ -42,6 +45,62 @@
         <% end %>
       </div>
     </header>
+    
+    <% if user_signed_in? && @sidebar != "hidden" %> <%# サイドバア %>
+      <% if @user.nil? %> <%# showアクションなら該当ユーザー情報を表示、それ以外はログインユーザー情報を表示 %>
+        <% @user = current_user %>
+      <% end %>
+      
+      <% if @rendered %><%# if @new_book.errors.any? %>
+        <div>
+          <p><%= @new_book.errors.count %>件のerrorが発生しました：</p>
+          <ul>
+          <% @new_book.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% else %>
+        <% @new_book = Book.new %>
+      <% end %>
+      
+      <div>
+        <h2>User info</h2>
+        <%= image_tag @user.get_prof_image(200, 200) %>
+        <table>
+          <tbody>
+            <tr>
+              <th>Name</th>
+              <td><%= @user.name %></td>
+            </tr>
+            <tr>
+              <th>Introduction</th>
+              <td><%= @user.introduction %></td>
+            </tr>
+          </tbody>
+        </table>
+        <div>
+          <%= link_to "Edit user data", edit_user_path(current_user.id) %>
+        </div>
+      </div>
+      <div>
+        <h2>New book</h2>
+        <%= form_with model: @new_book, url: '/books', method: :post do |f| %>
+          <div>
+            <%= f.label :title , "Title" %>
+            <%= f.text_field :title %>
+          </div>
+          <div>
+            <%= f.label :opinion , "Opinion" %>
+            <%= f.text_area :body %>
+          </div>
+          <div>
+            <%= f.submit "Create Book" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    
     <%= yield %>
   </body>
 </html>

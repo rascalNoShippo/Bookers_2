@@ -1,0 +1,3 @@
+<% content_for(:pagetitle, "#{@user.name} - User page") %>
+
+<%= render '/books/booklist', books: @user.books %>
