@@ -6,101 +6,133 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <!--script src="https://kit.fontawesome.com/d67b0675a1.js" crossorigin="anonymous"></script -->
   </head>
 
-  <body>
-    <header> <%# ヘッダー %>
-      <div>
-        <%= link_to"Bookers", root_path %>
-      </div>
-      <div>
+  <body class="container h-100">
+    <header class="d-flex justify-content-center py-3 border-bottom bg-dark row"> <%# ヘッダー %>
+      <%= link_to root_path, class: "d-flex align-items-center text-white text-decoration-none col-md-3 h2" do %>
+        <i class="fas fa-book mr-2"></i>Bookers
+      <% end %>
+      <ul class="nav nav-pills d-flex align-items-center offset-md-3 ">
         <% if user_signed_in? %>
-          <li>
-            <%= link_to "Home", user_path(current_user.id) %>
+          <li class="nav-item">
+            <%= link_to user_path(current_user.id), class: "nav-link border border-info border-1 rounded-pill text-white mx-1" do %>
+              <i class="fas fa-home mr-1"></i>Home
+            <% end %>
           </li>
-          <li>
-            <%= link_to "Users", users_path %>
+          <li class="nav-item">
+            <%= link_to users_path, class: "nav-link border border-info border-1 rounded-pill text-white mx-1" do %>
+              <i class="fas fa-users mr-1"></i>Users
+            <% end %>
           </li>
-          <li>
-            <%= link_to "Books", books_path %>
+          <li class="nav-item">
+            <%= link_to books_path, class: "nav-link border border-info border-1 rounded-pill text-white mx-1" do %>
+              <i class="fas fa-book-open mr-1"></i>Books
+            <% end %>
           </li>
-          <li>
-            <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+          <li class="nav-item">
+            <%= link_to destroy_user_session_path, method: :delete, "data-confirm" => "ログアウトしますか？", class: "nav-link border border-danger border-1 rounded-pill text-white mx-1" do %>
+              <i class="fas fa-sign-out-alt mr-1"></i>Log out
+            <% end %>
           </li>
         <% else %>
-          <li>
-            <%= link_to "Home", root_path %>
+          <li class="nav-item">
+            <%= link_to root_path, class: "nav-link border border-info border-1 rounded-pill text-white mx-1" do %>
+              <i class="fas fa-home mr-1"></i>Home
+            <% end %>
           </li>
-          <li>
-            <%= link_to "About", "/about" %>
+          <li class="nav-item">
+            <%= link_to about_path, class: "nav-link border border-info border-1 rounded-pill text-white mx-1" do %>
+              <i class="fas fa-link mr-1"></i>About
+            <% end %>
           </li>
-          <li>
-            <%= link_to "Sign up", new_user_registration_path %>
+          <li class="nav-item">
+            <%= link_to new_user_registration_path, class: "nav-link border border-info border-1 rounded-pill text-white mx-1" do %>
+              <i class="fas fa-user-plus mr-1"></i>Sign up
+            <% end %>
           </li>
-          <li>
-            <%= link_to "Log in", new_user_session_path %>
+          <li class="nav-item">
+            <%= link_to new_user_session_path, class: "nav-link border border-primary border-1 rounded-pill text-white mx-1" do %>
+              <i class="fas fa-sign-in-alt mr-1"></i>Log in
+            <% end %>
           </li>
         <% end %>
-      </div>
+      </ul>
     </header>
-    
-    <% if user_signed_in? && @sidebar != "hidden" %> <%# サイドバア %>
-      <% if @user.nil? %> <%# showアクションなら該当ユーザー情報を表示、それ以外はログインユーザー情報を表示 %>
-        <% @user = current_user %>
-      <% end %>
-      
-      <% if @rendered %><%# if @new_book.errors.any? %>
-        <div>
-          <p><%= @new_book.errors.count %>件のerrorが発生しました：</p>
-          <ul>
-          <% @new_book.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-          </ul>
-        </div>
-      <% else %>
-        <% @new_book = Book.new %>
-      <% end %>
-      
-      <div>
-        <h2>User info</h2>
-        <%= image_tag @user.get_prof_image(200, 200) %>
-        <table>
-          <tbody>
-            <tr>
-              <th>Name</th>
-              <td><%= @user.name %></td>
-            </tr>
-            <tr>
-              <th>Introduction</th>
-              <td><%= @user.introduction %></td>
-            </tr>
-          </tbody>
-        </table>
-        <div>
-          <%= link_to "Edit user data", edit_user_path(current_user.id) %>
-        </div>
-      </div>
-      <div>
-        <h2>New book</h2>
-        <%= form_with model: @new_book, url: '/books', method: :post do |f| %>
-          <div>
-            <%= f.label :title , "Title" %>
-            <%= f.text_field :title %>
-          </div>
-          <div>
-            <%= f.label :opinion , "Opinion" %>
-            <%= f.text_area :body %>
-          </div>
-          <div>
-            <%= f.submit "Create Book" %>
-          </div>
+
+    <main class="main row">
+      <% if user_signed_in? && @sidebar != "hidden" %> <%# サイドバア %>
+        <% if @user.nil? %> <%# showアクションなら該当ユーザー情報を表示、それ以外はログインユーザー情報を表示 %>
+          <% @user = current_user %>
         <% end %>
-      </div>
-    <% end %>
-    
-    <%= yield %>
+        <div class="sidebar col-md-3 bg-light py-5">
+          <% flash.each do |message_type, message| %>
+            <div class="success mb-4 p-2 border border-5 border-success d-flex align-items-center justify-content-center">
+              <p class="m-0 text-center"><%= message %></p>
+            </div>
+          <% end %>
+          <div class="user-info mb-5">
+            <h2>User info</h2>
+            <%= image_tag @user.get_profile_image(200, 200), class: "d-flex mx-auto" %>
+            <table class="table border-bottom">
+              <tbody>
+                <tr>
+                  <th class="align-middle">Name</th>
+                  <td class="align-middle"><%= @user.name %></td>
+                </tr>
+                <tr>
+                  <th class="align-middle">Introduction</th>
+                  <td class="align-middle"><%= @user.introduction %></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex">
+              <%= link_to edit_user_path(@user.id), class: " mx-auto px-5 btn btn-primary " do %>
+                <i class="fas fa-user-cog mr-2"></i>Update user data
+              <% end %>
+            </div>
+          </div>
+          <div class="new_book pb-5">
+            <% if @rendered %><%# if @new_book.errors.any? %>
+              <div class="p-3 border border-5 border-danger">
+                <p><%= @new_book.errors.count %>件のerrorが発生しました：</p>
+                <ul>
+                <% @new_book.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+                </ul>
+              </div>
+            <% else %>
+              <% @new_book = Book.new %>
+            <% end %>
+            <h2>New book</h2>
+            <%= form_with model: @new_book, url: '/books', method: :post do |f| %>
+              <div class="form-group">
+                <%= f.label :title , "Title" , class: "mb-0 d-block" %>
+                <%= f.text_field :title, class: "d-block w-100" %>
+              </div>
+              <div class="form-group">
+                <%= f.label :opinion , "Opinion" , class: "mb-0 d-block" %>
+                <%= f.text_area :body, class: "d-block w-100" %>
+              </div>
+              <div>
+                <%= f.submit "Create Book", class: "d-flex mx-auto px-5 btn btn-success mb-5" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      <div class="main2 col-md-8 py-5 offset-md-1">
+      <%= yield %>
+    </div>
+    </main>
+
+    <footer class="d-flex justify-content-center py-3 px-1 border-bottom bg-dark text-light row">
+      <p>Copyright</p>
+    </footer>
+
   </body>
 </html>

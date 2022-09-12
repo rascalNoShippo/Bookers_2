@@ -1,5 +1,5 @@
 class RenameColumnOpinionToBody < ActiveRecord::Migration[6.1]
   def change
-    rename_column :books, :opinion, :body
+  #  rename_column :books, :opinion, :body
   end
 end

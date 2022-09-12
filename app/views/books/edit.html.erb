@@ -2,7 +2,7 @@
 
 <h2>Editing Book</h2>
 <% if @editing_book.errors.any? %>
-  <div>
+  <div class="w-50 p-3 border border-danger my-3">
     <p><%= @editing_book.errors.count %>件のerrorが発生しました：</p>
     <ul>
     <% @editing_book.errors.full_messages.each do |message| %>
@@ -13,16 +13,20 @@
 <% end %>
 <%= form_with model: @editing_book, url: book_path, method: :patch do |f| %>
   <div>
-    <div>
-      <%= f.label :title, "Title" %>
-      <%= f.text_field :title %>
+    <div class="form-group">
+      <%= f.label :title, "Title", class: "d-block mb-0" %>
+      <%= f.text_field :title, class: "d-block w-50" %>
     </div>
-    <div>
-      <%= f.label :body, "Opinion" %>
-      <%= f.text_field :body %>
+    <div class="form-group">
+      <%= f.label :body, "Opinion", class: "d-block mb-0" %>
+      <%= f.text_area :body, class: "d-block w-50" %>
     </div>
-    <div>
-      <%= f.submit "Update book" %> 
+    <div class="form-group">
+      <%= f.submit "Update Book", class: "px-3 btn btn-success font-weight-bold" %> 
     </div>
   </div>
 <% end %>
+<div>
+  <%= link_to "Show", book_path(), class: "btn btn-primary px-3" %>
+  <%= link_to "Back", books_path, class: "btn btn-secondary px-3" %>
+</div>

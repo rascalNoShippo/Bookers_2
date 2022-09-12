@@ -1,21 +1,23 @@
 <div>
   <h2>Books</h2>
-    <table>
-      <thead> 
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <th></th>
-          <th>Title</th>
-          <th>Opinion</th>
+          <th class="col-1 text-center">User</th>
+          <th class="col-3">Title</th>
+          <th class="col-8">Opinion</th>
         </tr>
       </thead>
       <tbody>
         <% books.each do |item| %>
           <tr>
-            <td>
-              <%= image_tag item.user.get_prof_image(100, 100) %>
+            <td class="align-middle text-center">
+              <%= link_to user_path(item.user.id) do %>
+                <%= image_tag item.user.get_profile_image(100, 100) %>
+              <% end %>
             </td>
-            <td><%= link_to item.title, book_path(item.id) %></td>
-            <td><%= item.body %></td>
+            <td class="align-middle"><%= link_to item.title, book_path(item.id) %></td>
+            <td class="align-middle"><%= item.body %></td>
           </tr>
         <% end %>
       </tbody>

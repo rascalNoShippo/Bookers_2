@@ -4,15 +4,21 @@
 
 <div>
   <div>
-    <p><%= image_tag @selected_book.user.get_prof_image(150,150) %></p>
-    <p><%= @selected_book.user.name %></p>
+    <%= link_to user_path(@selected_book.user.id) do %>
+      <p>
+        <%= image_tag @selected_book.user.get_profile_image(150,150), class: "mr-5" %>
+        <%= @selected_book.user.name %>
+      </p>
+    <% end %>
   </div>
   <h4><%= @selected_book.title %></h4>
   <p><%= @selected_book.body %></p>
 </div>
 <% if @selected_book.user == current_user %>
-  <div>
-    <%= link_to "Edit", edit_book_path(@selected_book.id) %>
-    <%= link_to "Destroy", book_path(@selected_book.id), method: :delete, "data-confirm" => "この投稿を削除しますか？\n\nBook ID : #{@selected_book.id}\nTitle : #{@selected_book.title}" %>
+  <div class="d-inline-block ">
+    <%= link_to "Edit", edit_book_path(@selected_book.id), method: :get, class: "px-3 btn btn-primary" %>
+  </div>
+  <div class="d-inline-block ">
+    <%= link_to "Destroy", book_path(@selected_book.id), method: :delete, class: "px-3 btn btn-danger", "data-confirm" => "この投稿を削除しますか？\n\nBook ID : #{@selected_book.id}\nTitle : #{@selected_book.title}" %>
   </div>
 <% end %>

@@ -1,16 +1,26 @@
 <% content_for(:pagetitle, "Edit User Properties") %>
 <h2>User info</h2>
-  <%= form_with model: User.find(current_user.id), url: user_path, method: :patch do |f| %>
-    <div>
-      <%= f.label :name, "Name" %>
-      <%= f.text_field :name %>
-    </div>
-    <div>
-      <%= f.file_field :prof_image, placeholder: "プロフィール画像", accept: "image/*" %>
-    </div>
-    <div>
-      <%= f.label :introduction, "Introduction" %>
-      <%= f.text_area :introduction %>
-    </div>
-    <%= f.submit "Update User" %>
-  <% end %>
+<% if @c_user.errors.any? %>
+  <div class="w-50 p-3 border border-danger my-3">
+    <p><%= @c_user.errors.count %>件のerrorが発生しました：</p>
+    <ul>
+    <% @c_user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+<%= form_with model: @c_user, url: user_path, method: :patch do |f| %>
+  <div class="form-group">
+    <%= f.label :name, "Name", class: "d-block mb-0" %>
+    <%= f.text_field :name, class: "d-block w-50" %>
+  </div>
+  <div class="form-group">
+    <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :introduction, "Introduction", class: "d-block mb-0" %>
+    <%= f.text_area :introduction, class: "d-block w-50" %>
+  </div>
+  <%= f.submit "Update User",  class: "px-3 btn btn-success" %>
+<% end %>

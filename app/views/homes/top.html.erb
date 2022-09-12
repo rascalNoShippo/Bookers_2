@@ -1,4 +1,26 @@
 <% content_for(:pagetitle, "TOP") %>
 
-
-<h1>TOP</h1>
+<% flash.each do |message_type, message| %>
+  <div class="success success mb-4 p-2 border border-5 border-success d-flex align-items-center justify-content-center w-50">
+    <p class="m-0"><%= message %></p>
+  </div>
+  <div>
+      <%= link_to "About", about_path, class: "btn btn-primary px-5" %>
+  </div>
+<% end %>
+<% if !flash.any? %>
+    <main class="">
+        <h1>
+            welcome to <i class="fas fa-book"></i>Bookers !!
+        </h1>
+        <p>
+            In <span class="font-weight-bold"><i class="fas fa-book-open"></i>Bookers</span>, 
+            <br>
+            you can share and exchange your opinions , inpressions , and emotions about various books!
+        </p>
+    </main>
+    <div>
+        <%= link_to "Log in", new_user_session_path, class: "btn btn-info w-25" %>
+        <%= link_to "Sign up", new_user_registration_path, class: "btn btn-success w-25" %>
+    </div>
+<% end %>
