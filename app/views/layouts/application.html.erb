@@ -50,7 +50,7 @@
             <% end %>
           </li>
           <li class="nav-item">
-            <%= link_to new_user_registration_path, class: "nav-link border border-info border-1 rounded-pill text-white mx-1" do %>
+            <%= link_to new_user_registration_path, class: "nav-link border border-warning border-1 rounded-pill text-white mx-1" do %>
               <i class="fas fa-user-plus mr-1"></i>Sign up
             <% end %>
           </li>
@@ -70,7 +70,7 @@
         <% end %>
         <div class="sidebar col-md-3 bg-light py-5">
           <% flash.each do |message_type, message| %>
-            <div class="success mb-4 p-2 border border-5 border-success d-flex align-items-center justify-content-center">
+            <div class="success mb-4 p-2 border border-5 rounded border-success d-flex align-items-center justify-content-center">
               <p class="m-0 text-center"><%= message %></p>
             </div>
           <% end %>
@@ -97,7 +97,7 @@
           </div>
           <div class="new_book pb-5">
             <% if @rendered %><%# if @new_book.errors.any? %>
-              <div class="p-3 border border-5 border-danger">
+              <div class="px-3 pt-2 border border-5 border-danger">
                 <p><%= @new_book.errors.count %>件のerrorが発生しました：</p>
                 <ul>
                 <% @new_book.errors.full_messages.each do |message| %>
