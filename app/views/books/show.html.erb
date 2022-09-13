@@ -2,23 +2,25 @@
 
 <h2>Book detail</h2>
 
-<div>
-  <div>
-    <%= link_to user_path(@selected_book.user.id) do %>
-      <p>
+<main>
+  <div class="d-flex mb-5 mx-0 align-items-center">
+    <div>
+      <%= link_to user_path(@selected_book.user.id) do %>
         <%= image_tag @selected_book.user.get_profile_image(150,150), class: "mr-5" %>
-        <%= @selected_book.user.name %>
-      </p>
+      <% end %>
+    </div>
+      <div>
+        <div class="mb-2"><%= link_to @selected_book.user.name, user_path(@selected_book.user.id) %></div>
+        <div class="">
+          <% if @selected_book.user == current_user %>
+            <div class="d-flex">
+              <%= link_to "Edit", edit_book_path(@selected_book.id), method: :get, class: "px-3 btn btn-primary mr-2" %>
+              <%= link_to "Destroy", book_path(@selected_book.id), method: :delete, class: "px-3 btn btn-danger mr-2", "data-confirm" => "この投稿を削除しますか？\n\nBook ID : #{@selected_book.id}\nTitle : #{@selected_book.title}" %>
+            </div>
+        </div>
+      </div>
     <% end %>
   </div>
   <h4><%= @selected_book.title %></h4>
-  <p><%= @selected_book.body %></p>
-</div>
-<% if @selected_book.user == current_user %>
-  <div class="d-inline-block ">
-    <%= link_to "Edit", edit_book_path(@selected_book.id), method: :get, class: "px-3 btn btn-primary" %>
-  </div>
-  <div class="d-inline-block ">
-    <%= link_to "Destroy", book_path(@selected_book.id), method: :delete, class: "px-3 btn btn-danger", "data-confirm" => "この投稿を削除しますか？\n\nBook ID : #{@selected_book.id}\nTitle : #{@selected_book.title}" %>
-  </div>
-<% end %>
+  <p class="ml-3"><%= @selected_book.body %></p>
+</main>
